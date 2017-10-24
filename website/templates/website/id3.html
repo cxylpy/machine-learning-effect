@@ -1,0 +1,154 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+</head>
+<body>
+<div id="main" style="width: 1000px;height:800px;"></div>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        option = {
+    title: {
+        text: ''
+    },
+    tooltip: {},
+    animationDurationUpdate: 1500,
+    animationEasingUpdate: 'quinticInOut',
+    label: {
+        normal: {
+            show: true,
+            textStyle: {
+                fontSize: 12
+            },
+        }
+    },
+    legend: {
+        x: "center",
+        show: false,
+        data: ["属性0", "属性1", '属性2','属性3','属性4']
+    },
+    series: [
+
+        {
+            type: 'graph',
+            layout: 'force',
+            symbolSize: 45,
+            focusNodeAdjacency: true,
+            roam: true,
+            categories: [{
+                name: '属性0',
+                itemStyle: {
+                    normal: {
+                        color: "#009800",
+                    }
+                }
+            }, {
+                name: '属性1',
+                itemStyle: {
+                    normal: {
+                        color: "#4592FF",
+                    }
+                }
+            }, {
+                name: '属性2',
+                itemStyle: {
+                    normal: {
+                        color: "#3592F",
+                    }
+                }
+            }, {
+                name: '属性3',
+                itemStyle: {
+                    normal: {
+                        color: "#3592F",
+                    }
+                }
+            },{
+                name: '属性4',
+                itemStyle: {
+                    normal: {
+                        color: "#3592F",
+                    }
+                }
+            }
+            ],
+            label: {
+                normal: {
+                    show: true,
+                    textStyle: {
+                        fontSize: 12
+                    },
+                }
+            },
+            force: {
+                repulsion: 1000
+            },
+            edgeSymbolSize: [4, 50],
+            edgeLabel: {
+                normal: {
+                    show: true,
+                    textStyle: {
+                        fontSize: 10
+                    },
+                    formatter: "{c}"
+                }
+            },
+            data: [
+                {% for node in nodes %}
+            {
+                name: '{{ node.indexes }}',
+                category: 1,
+                draggable: true,
+            }, {% endfor %}
+
+             ],
+            links: [
+                {% for link in links %}
+                {
+                    source: {{ link.source }},
+                    target: {{ link.target }},
+                    value: '{{ link.relation }}'
+                },
+                {% endfor %}
+              ],
+            lineStyle: {
+                normal: {
+                    opacity: 0.9,
+                    width: 1,
+                    curveness: 0
+                }
+            }
+        }
+    ]
+};
+{#            #}
+{#        // 指定图表的配置项和数据#}
+{#        var option = {#}
+{#            title: {#}
+{#                text: 'ECharts 入门示例'#}
+{#            },#}
+{#            tooltip: {},#}
+{#            legend: {#}
+{#                data:['销量']#}
+{#            },#}
+{#            xAxis: {#}
+{#                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]#}
+{#            },#}
+{#            yAxis: {},#}
+{#            series: [{#}
+{#                name: '销量',#}
+{#                type: 'bar',#}
+{#                data: [5, 20, 36, 10, 10, 20]#}
+{#            }]#}
+{#        };#}
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
